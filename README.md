@@ -19,6 +19,7 @@ A blind-labeling pipeline and self-contained interactive dashboards:
 The balanced set was drawn 50 per *predicted* class from a 600-review blind-labeled pool. The NEUTRAL class collapses (12%) because the 3✩ bucket is nearly empty in this dataset — most "bland" reviews are actually rated 4–5✩.
 
 **Analysis**
+
 The initial run on the data drew the first 100 reviews, which were predominantly positive reviews. Positive reviews are fairly easy to detect, as they typically include positive language, as well as a human tendency to skew to the extremes. With most of the analyzed reviews coming from the positive class, the program appeared to be very accurate. It was only once the reviews were balanced between three categories (Positive, Negative, Neutral) did the deficiencies of the model become exposed. When the model was ran, the sentiment accuracy dropped to 65.3%.
 
 The most difficult class for the model to define is Neutral. The model detected only 12% (6/50) Neutral ratings correctly. When vague text is entered, it comes off as the user has no strong opinion and the model chooses Neutral. More often, the user gives a high rating in this instance.  The model chose Neutral on occurrences when it was Positive on 38/50 reviews. When they give a low rating, they are more likely to enter a thorough description, so vague descriptions are more sparsely linked to low star ratings. 
