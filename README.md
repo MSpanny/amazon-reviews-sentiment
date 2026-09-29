@@ -28,6 +28,14 @@ The emotion ratings show an even greater inconsistency. First, the model was onl
 
 The entire process was fairly streamlined to put together. Choosing a Sans Serif type font, and setting a static dark background made the formatting seamless. The LLM created an easy-to-use dashboard that displayed the information in a way that only requires a glance to understand if it hit or miss the predictions. 
 
+<img width="2634" height="1552" alt="Assignment 1_Details Screenshot" src="https://github.com/user-attachments/assets/a7a2881f-7beb-4eec-8cde-e97481a09b15" />
+
+Screenshot of the Details tab, showing a detailed look into each Amazon review assessed by the model.
+
+<img width="2536" height="1556" alt="Assignment 1_Dashboard Screenshot" src="https://github.com/user-attachments/assets/b451cb4f-f7d7-4bf4-ac1c-89b1624532ea" />
+
+Screenshot of the Overview tab, where the overall performance metrics of the system can be viewed.
+
 ## Files
 
 | File | What it is |
