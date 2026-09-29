@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Amazon Reviews · Sentiment &amp; Emotion Dashboard</title>
+<style>
+:root{
+  /* Ocean Blue (default) */
+  --bg:#04060b; --bg2:#070b14; --panel:#0a101d; --panel2:#0d1526;
+  --border:#1a2740; --text:#ffffff; --muted:#93a7c4; --faint:#5d718f;
+  --accent:#4da3ff; --accent-strong:#1f7bef; --pos:#56b3ff; --neg:#1e4f9e; --neg-deep:#0d2b5e;
+  --ok:#4ade80; --bad:#ffb454;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none !important}
+html,body{height:100%}
+body{
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.5;
+  padding:26px 30px 56px;
+}
+.wrap{max-width:1240px;margin:0 auto}
+
+/* header */
+header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+h1{font-size:21px;font-weight:650;letter-spacing:-.2px}
+h1 .dot{color:var(--accent);margin-right:2px}
+.sub{color:var(--muted);font-size:13px;margin-top:2px}
+.palette{display:flex;align-items:center;gap:10px}
+.plabel{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+#pname{font-size:12px;color:var(--accent);min-width:74px}
+.swatches{display:flex;gap:6px}
+.sw{width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;transition:transform .12s ease,border-color .12s ease}
+.sw:hover{transform:scale(1.14)}
+.sw.active{border-color:#fff}
+
+/* tabs */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.tab{padding:10px 18px;background:none;border:none;color:var(--muted);font:inherit;font-size:14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;border-radius:6px 6px 0 0}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--text);border-bottom-color:var(--accent)}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:14px}
+.kpi{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:15px 16px}
+.k-label{font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted)}
+.k-num{font-size:30px;font-weight:650;letter-spacing:-.5px;margin-top:6px;font-variant-numeric:tabular-nums}
+.k-foot{font-size:11.5px;color:var(--faint);margin-top:4px;line-height:1.4}
+.kpi.accent .k-num{color:var(--accent)}
+
+/* panels */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.panel h2{font-size:14px;font-weight:600;margin-bottom:2px}
+.h-note{font-size:12px;color:var(--muted);margin-bottom:16px}
+
+/* sentiment chart */
+.chart{display:flex;align-items:flex-end;justify-content:center;gap:60px;height:250px;position:relative;margin-top:8px}
+.chart::before{content:'';position:absolute;inset:0 20px 0 20px;background:repeating-linear-gradient(180deg,transparent 0 calc(25% - 1px),var(--border) calc(25% - 1px) 25%);opacity:.45;pointer-events:none}
+.barcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;height:100%;z-index:1}
+.bar{width:72px;border-radius:8px 8px 0 0;height:0%;position:relative;transition:height .7s cubic-bezier(.2,.8,.2,1)}
+.bar .val{position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-size:15px;font-weight:650;color:var(--text)}
+.bar.pos{background:linear-gradient(180deg,var(--accent) 0%,var(--accent-strong) 100%);box-shadow:0 0 26px -8px var(--accent)}
+.bar.neg{background:linear-gradient(180deg,var(--neg) 0%,var(--neg-deep) 100%)}
+.barlabel{font-size:12px;color:var(--muted);letter-spacing:.08em}
+
+/* emotion chart */
+.ehead{display:grid;grid-template-columns:74px 1fr 38px 1fr 38px;gap:10px;align-items:center;margin-bottom:6px}
+.ehead span{font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint)}
+.erow{display:grid;grid-template-columns:74px 1fr 38px 1fr 38px;gap:10px;align-items:center;margin-bottom:7px}
+.elabel{font-size:12.5px;color:var(--muted);text-align:right;text-transform:capitalize}
+.etrack{background:var(--panel2);border:1px solid var(--border);border-radius:6px;height:18px;overflow:hidden}
+.ebar{height:100%;border-radius:6px 0 0 6px;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.ebar.ep{background:linear-gradient(90deg,var(--accent-strong),var(--accent))}
+.ebar.ea{background:linear-gradient(90deg,var(--neg-deep),var(--neg))}
+.ecount{font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.legend{display:flex;gap:18px;margin-top:10px;font-size:12px;color:var(--muted)}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend .dot.ep{background:var(--accent)}
+.legend .dot.ea{background:var(--neg)}
+
+/* mismatch cards */
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mcard{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:13px 15px;display:flex;flex-direction:column;gap:8px}
+.mbadges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;display:inline-block}
+.badge.pos{color:var(--pos);background:color-mix(in srgb,var(--pos) 16%,transparent)}
+.badge.neg{color:#dfeaff;background:var(--neg)}
+.badge.neu{color:var(--muted);border:1px solid var(--border)}
+.badge.miss{color:#000;background:var(--bad)}
+.mcard .mt{font-weight:600;font-size:13.5px;line-height:1.35}
+.mcard .mx{color:var(--muted);font-size:12.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.via{color:var(--faint);font-size:11px}
+.faint{color:var(--faint)}
+
+/* filters */
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.filters label{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.filters select,.filters input[type=search]{background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 10px;font:inherit;font-size:13px;outline:none;min-height:34px}
+.filters select:focus,.filters input[type=search]:focus{border-color:var(--accent)}
+.filters .grow{flex:1;min-width:200px}
+.btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:7px 13px;font:inherit;font-size:13px;cursor:pointer;min-height:34px}
+.btn:hover{color:var(--text);border-color:var(--accent)}
+.count{font-size:12.5px;color:var(--muted);padding-bottom:8px;white-space:nowrap}
+
+/* table */
+.tblwrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:hover td{background:var(--panel2)}
+tr.smiss td{background:color-mix(in srgb,var(--bad) 7%,transparent)}
+tr.emiss td{background:color-mix(in srgb,var(--bad) 5%,transparent)}
+td.num{font-variant-numeric:tabular-nums}
+.tx{max-width:420px;cursor:pointer}
+.tx .clamp{color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tx.open .clamp{-webkit-line-clamp:unset;color:var(--text)}
+.tx .hint{font-size:10.5px;color:var(--faint);letter-spacing:.04em}
+.stars{color:var(--accent);letter-spacing:1px;white-space:nowrap}
+.stars .off{color:var(--faint)}
+.rtnum{color:var(--muted);font-size:11.5px;margin-left:2px}
+.match-ok{color:var(--ok)}
+.match-bad{color:var(--bad)}
+.noans{color:var(--faint)}
+.empty{padding:38px;text-align:center;color:var(--muted);font-size:13px}
+
+footer{color:var(--faint);font-size:12px;margin-top:6px;line-height:1.6}
+
+@media (max-width:1080px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:860px){
+  .mgrid{grid-template-columns:1fr}
+  .bar{width:52px}
+  body{padding:20px 16px 40px}
+  .ehead,.erow{grid-template-columns:56px 1fr 34px 1fr 34px}
+}
+@media (max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}}
+@media (prefers-reduced-motion:reduce){.bar,.ebar{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1><span class="dot">◆</span>Amazon Reviews · Sentiment &amp; Emotion Dashboard</h1>
+    <div class="sub">Gift Cards category · 200-review labeled sample · data embedded, works offline</div>
+  </div>
+  <div class="palette">
+    <span class="plabel">Palette</span>
+    <div class="swatches" id="swatches"></div>
+    <span id="pname">Ocean Blue</span>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <button class="tab active" data-tab="overview">Overview</button>
+  <button class="tab" data-tab="details">Details</button>
+</nav>
+
+<section id="tab-overview">
+  <div class="kpis">
+    <div class="kpi"><div class="k-label">Reviews analyzed</div><div class="k-num" id="k-analyzed">–</div><div class="k-foot">2 × 100 random batches · seed 42 · of 152,410 total</div></div>
+    <div class="kpi"><div class="k-label">Predicted positive</div><div class="k-num" id="k-pos">–</div><div class="k-foot">assigned from title + text</div></div>
+    <div class="kpi"><div class="k-label">Predicted negative</div><div class="k-num" id="k-neg">–</div><div class="k-foot">assigned from title + text</div></div>
+    <div class="kpi"><div class="k-label">Sentiment accuracy</div><div class="k-num" id="k-sacc">–</div><div class="k-foot" id="k-sacc-foot">–</div></div>
+    <div class="kpi accent"><div class="k-label">Emotion accuracy</div><div class="k-num" id="k-eacc">–</div><div class="k-foot" id="k-eacc-foot">–</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Predicted sentiment distribution</h2>
+    <div class="h-note">POSITIVE vs. NEGATIVE, assigned from review title and text — numerical rating ignored</div>
+    <div class="chart">
+      <div class="barcol"><div class="bar pos" id="bar-pos"><span class="val" id="val-pos">0</span></div><div class="barlabel">POSITIVE</div></div>
+      <div class="barcol"><div class="bar neg" id="bar-neg"><span class="val" id="val-neg">0</span></div><div class="barlabel">NEGATIVE</div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Primary emotion — predicted vs NRC word-list answer</h2>
+    <div class="h-note">Predicted = emotion judged from title + text. NRC answer = emotion of the highest-scoring word per NRC-EmoLex (a word scores 1 per emotion category it activates; ties → earliest word, then review-aggregate). No NRC word found in 49/200 reviews — those are excluded from accuracy.</div>
+    <div class="ehead">
+      <span></span><span>Predicted</span><span></span><span>NRC answer</span><span></span>
+    </div>
+    <div id="echart"></div>
+    <div class="legend">
+      <span><span class="dot ep"></span>Predicted emotion</span>
+      <span><span class="dot ea"></span>NRC word-list answer</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Where predicted sentiment and rating disagreed</h2>
+    <div class="h-note">Rating rule: predicted POSITIVE should have actual rating 4–5, predicted NEGATIVE should have 1–3. Showing up to 3 examples.</div>
+    <div class="mgrid" id="mgrid-s"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Where predicted emotion ≠ NRC word answer</h2>
+    <div class="h-note">Preferred examples: sentiment-negative reviews that the NRC word list scored positive — shows the dictionary method's blind spot (e.g. the word “gift” out-scoring “stolen”). Showing up to 3.</div>
+    <div class="mgrid" id="mgrid-e"></div>
+  </div>
+</section>
+
+<section id="tab-details" hidden>
+  <div class="panel">
+    <h2>All labeled reviews</h2>
+    <div class="h-note">Click any review text to expand it. Amber tint = sentiment mismatch with rating, light tint = emotion mismatch with NRC answer.</div>
+    <div class="filters">
+      <label>Batch
+        <select id="f-batch">
+          <option value="all">All</option>
+          <option value="1">Batch 1</option>
+          <option value="2">Batch 2</option>
+        </select>
+      </label>
+      <label>Prediction
+        <select id="f-pred">
+          <option value="all">All</option>
+          <option value="POSITIVE">POSITIVE</option>
+          <option value="NEGATIVE">NEGATIVE</option>
+        </select>
+      </label>
+      <label>Actual rating
+        <select id="f-rating">
+          <option value="all">All</option>
+          <option value="5">5 ★</option>
+          <option value="4">4 ★</option>
+          <option value="3">3 ★</option>
+          <option value="2">2 ★</option>
+          <option value="1">1 ★</option>
+        </select>
+      </label>
+      <label>Review text
+        <select id="f-text">
+          <option value="all">All</option>
+          <option value="yes">Has text</option>
+          <option value="no">No text</option>
+        </select>
+      </label>
+      <label>Title
+        <select id="f-title">
+          <option value="all">All</option>
+          <option value="yes">Has title</option>
+          <option value="no">No title</option>
+        </select>
+      </label>
+      <label>Emotion (pred.)
+        <select id="f-emotion">
+          <option value="all">All</option>
+          <option value="joy">joy</option>
+          <option value="trust">trust</option>
+          <option value="anger">anger</option>
+          <option value="anticipation">anticipation</option>
+          <option value="sadness">sadness</option>
+          <option value="surprise">surprise</option>
+          <option value="disgust">disgust</option>
+          <option value="fear">fear</option>
+        </select>
+      </label>
+      <label>NRC answer
+        <select id="f-nrc">
+          <option value="all">All</option>
+          <option value="none">No NRC word</option>
+          <option value="anticipation">anticipation</option>
+          <option value="joy">joy</option>
+          <option value="anger">anger</option>
+          <option value="trust">trust</option>
+          <option value="sadness">sadness</option>
+          <option value="surprise">surprise</option>
+          <option value="disgust">disgust</option>
+          <option value="fear">fear</option>
+        </select>
+      </label>
+      <label class="grow">Search title / text
+        <input type="search" id="f-search" placeholder="e.g. didn't work, gift card…"/>
+      </label>
+      <button class="btn" id="f-reset">Reset</button>
+      <span class="count" id="rowcount"></span>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Batch</th><th>Actual</th><th>Predicted</th><th>Sent. ✓</th><th>Emotion</th><th>NRC answer</th><th>Emo. ✓</th><th>Title</th><th>Review text</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="no-rows" hidden>No reviews match these filters.</div>
+  </div>
+</section>
+
+<footer>Sampled with seed 42 · sentiment labeled by reading title + text · emotion predicted in NRC-EmoLex categories · NRC answers from NRC-Emotion-Lexicon Wordlevel v0.92 (official download, word→8 binary emotion associations) · single self-contained file, no external dependencies</footer>
+
+</div>
+
+<script>
+const DATA = [{"o":0,"b":1,"t":"Pretty much perfct","x":"It's a gift card. It's worth what I paid for it. It has no activation fees or expiration date and it doesn't lose its value if not used. Pretty much perfct, as far as gift cards go.","p":"POSITIVE","r":5,"e":"trust","n":"surprise","w":"lose","m":false},{"o":1,"b":1,"t":"Got it when it said","x":"Nice delivery and fast. Hope the mom-to-be has no problems with it🤰 🙅💆🙎🙇.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"hope","m":false},{"o":2,"b":1,"t":"Perfect for graduation!!!","x":"Great gift box for gift card!!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"graduation","m":false},{"o":3,"b":1,"t":"Five Stars","x":"Good product!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"good","m":false},{"o":4,"b":1,"t":"It's a gift card","x":"Just what I wanted","p":"POSITIVE","r":4,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":5,"b":1,"t":"Five Stars","x":"So far I am a fan of Amazon","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":6,"b":1,"t":"Easy","x":"Easy","p":"POSITIVE","r":4,"e":"trust","n":null,"w":null,"m":false},{"o":7,"b":1,"t":"Gift card compromised!!!","x":"Bought this gift card from Amazon for my daughter for Christmas! $110 worth of charges magically appeared. I will never buy another gift card from Amazon again. Contacted them and got zero response.","p":"NEGATIVE","r":1,"e":"anger","n":"joy","w":"gift","m":false},{"o":8,"b":1,"t":"Beautiful high-quality packaging, perfect gift for grads!","x":"It's an Amazon gift card in a high-quality gift box that looks like a graduation cap. It makes an excellent gift!","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"graduation","m":true},{"o":9,"b":1,"t":"Four Stars","x":"Works as advertised.","p":"POSITIVE","r":4,"e":"trust","n":null,"w":null,"m":false},{"o":10,"b":1,"t":"Helpful","x":"Great","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"helpful","m":true},{"o":11,"b":1,"t":"Amazon Gift Cards Did All The Work","x":"No need to guess what anyone wants. Everyone shops at Amazon and you will get it right every time by letting loved ones purchase exactly what they want or need. I was off the shopping hook at the push of a button!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"shopping","m":false},{"o":12,"b":1,"t":"Love it!","x":"This is great! I hope Amazon does this every year. I would definitely collect one every year","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"hope","m":true},{"o":13,"b":1,"t":"Amazon","x":"It's a gift card.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":14,"b":1,"t":"It was easy to do.","x":"I liked the ease of doing it.","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":15,"b":1,"t":"Or if I earned more coins per purchase that would be great as well","x":"I wish the discount was higher. I would purchase more coins.  Or if I earned more coins per purchase that would be great as well.","p":"NEGATIVE","r":3,"e":"anticipation","n":null,"w":null,"m":false},{"o":16,"b":1,"t":"not happy my 2% credit didn't automatically apply","x":"had to call customer services, very very annoying","p":"NEGATIVE","r":1,"e":"anger","n":"trust","w":"happy","m":false},{"o":17,"b":1,"t":"Invalid","x":"Code didn’t work. Didn’t take certain letters in the code for redemption. Lesson learned no longer purchasing gift cards online.","p":"NEGATIVE","r":1,"e":"anger","n":"anticipation","w":"gift","m":false},{"o":18,"b":1,"t":"Reloadable gift card","x":"Easy to load and use.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":19,"b":1,"t":"Might be lost","x":"Note came from Amazon \"might/may be lost\", so big disappointment to my intended recipient; I have asked for refund.","p":"NEGATIVE","r":1,"e":"sadness","n":"sadness","w":"disappointment","m":true},{"o":20,"b":1,"t":"Five Stars","x":"My son liked his gift card.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":21,"b":1,"t":"Gift Card","x":"Everyone loves Amazon gift cards!  Easy to use!  Box is reusable for any small gift!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":22,"b":1,"t":"Easy to Order","x":"This made a good Christmas present for my wife.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"good","m":false},{"o":23,"b":1,"t":"False information","x":"web page details are inaccurate and misleading","p":"NEGATIVE","r":1,"e":"anger","n":"anger","w":"misleading","m":true},{"o":24,"b":1,"t":"Great gift","x":"When you don’t know what to get","p":"POSITIVE","r":4,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":25,"b":1,"t":"Five Stars","x":"Great, simple gift.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":26,"b":1,"t":"Watch what you are buying","x":"Product was not what I expected. I wanted to get Ebay cards and not visa debit cards. Lesson learned.","p":"NEGATIVE","r":4,"e":"sadness","n":"anticipation","w":"watch","m":false},{"o":27,"b":1,"t":"Budget","x":"I use the reloaded gift card a budgeting tool for myself. Let be honest, I know I'm not the only one with a cart total close to one million lol.","p":"POSITIVE","r":5,"e":"trust","n":"joy","w":"honest","m":false},{"o":28,"b":1,"t":"Its a Gift Card","x":"What can I say about a gift card.  It works, it was exactly what I expected, and I would purchase again.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":29,"b":1,"t":"Quick Service Happy with everything.","x":"Everything was quick and easy to order.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"happy","m":false},{"o":30,"b":1,"t":"Easy and fast","x":"Easy and fast","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":31,"b":1,"t":"Great Idea","x":"Great gift","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":32,"b":1,"t":"Five Stars","x":"What can one say, they are a gift card and it works.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":33,"b":1,"t":"Five Stars","x":"Awsome","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":34,"b":1,"t":"Good feature.","x":"Needed to add to my order balance and this helps reach that order balance immediately.  Good feature.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"good","m":false},{"o":35,"b":1,"t":"A go to gift card.","x":"Everyone loves Amazon. An Amazon gift card fits any ocasion and celebration.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"celebration","m":false},{"o":36,"b":1,"t":"Nice gift card","x":"Arrived quickly. Looks nice except the cutout on the back of the tin- you see a barcode not Merry Christmas so the picture is misleading. You could flip the gift card over but then it would look silly when they open the tin.","p":"POSITIVE","r":4,"e":"trust","n":"joy","w":"gift","m":false},{"o":37,"b":1,"t":"Be ware!!","x":"Don’t buy. They activate the cards and them they desactivate it. $600 to trash.","p":"NEGATIVE","r":1,"e":"anger","n":"disgust","w":"trash","m":false},{"o":38,"b":1,"t":"Exactly as advertised","x":"Great","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":39,"b":1,"t":"Five Stars","x":"Fast and easy, thanks","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":40,"b":1,"t":"First introduced to this restaurant in Asheville, N. C.","x":"I gave this one to me!  Like it quite well and am holding it for a special time.  If I get only one of these next holiday, it will be mine.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"holiday","m":false},{"o":41,"b":1,"t":"Five Stars","x":"it is really great","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":42,"b":1,"t":"Gifted","x":"It’s a gift card","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":43,"b":1,"t":"Five Stars","x":"convenience","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":44,"b":1,"t":"It reloaded","x":"It reloaded","p":"POSITIVE","r":4,"e":"trust","n":null,"w":null,"m":false},{"o":45,"b":1,"t":"Five Stars","x":"It did","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":46,"b":1,"t":"Great Idea!","x":"great idea! feels like money in the bank earning interest.","p":"POSITIVE","r":5,"e":"trust","n":"trust","w":"money","m":true},{"o":47,"b":1,"t":"Good quality!","x":"Got what I expected.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"good","m":false},{"o":48,"b":1,"t":"\"CONVENIENCE\" SPENDING\"","x":"I found it very convenient💲!","p":"POSITIVE","r":5,"e":"trust","n":"joy","w":"found","m":false},{"o":49,"b":1,"t":"Easy gift when you don't know what to give.","x":"Christmas gifts,","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":50,"b":1,"t":"Gift card reviews are weird unless they go wrong","x":"We bought this for my mom, she used it, no problem.<br /><br />We've had an issue with a recent kind of multiple restaurant card where the restaurants weren't all part of the same ownership group you have to go to the website, register for one restaurant, and then it gets authorized. It's very flexible, but kind of a mess if the recipient doesn't use the internet. So we're getting single company cards from now on.<br /><br />Cheddar's worked fine.","p":"POSITIVE","r":5,"e":"trust","n":"joy","w":"gift","m":false},{"o":51,"b":1,"t":"Staff loved them","x":"Great gift everybody loves Amazon","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":52,"b":1,"t":"Easy to use","x":"Very convenient","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":53,"b":1,"t":"Didn’t work","x":"None of the cards worked in the Starbucks ap or at Starbucks stores","p":"NEGATIVE","r":1,"e":"anger","n":null,"w":null,"m":false},{"o":54,"b":1,"t":"Just like getting free money!","x":"I will take a $50 gift card for $40 any day!!! Basically $10 for free. Love it.","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"money","m":true},{"o":55,"b":1,"t":"great gifts.","x":"Thank you!","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":56,"b":1,"t":"It works and I got some free cash out of it","x":"It worked fine!","p":"POSITIVE","r":5,"e":"trust","n":"anger","w":"cash","m":false},{"o":57,"b":1,"t":"Great.","x":"I used it today and it is accepted. Great.","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":58,"b":1,"t":"So Easy","x":"I always try to keep money already loaded so I always have money when I want to shop.","p":"POSITIVE","r":5,"e":"trust","n":"anger","w":"money","m":false},{"o":59,"b":1,"t":"Five Stars","x":"perfect for a gift card","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"perfect","m":false},{"o":60,"b":1,"t":"It's a gift certificate","x":"Easy to use","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":61,"b":1,"t":"as described","x":"bought for my mother and came quickly :) would buy again","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"mother","m":false},{"o":62,"b":1,"t":"No problems!","x":"Card worked fine!","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":63,"b":1,"t":"Nice tin, very appropriate","x":"I bought these for my nieces, they loved them. Nice design for the tin.","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":64,"b":1,"t":"Love it","x":"Incredible","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"love","m":true},{"o":65,"b":1,"t":"Sometimes I use this as cache money for the gift purchases","x":"Sometimes I use this as cache money for the gift purchases. Vert seamless to buy it online.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"money","m":false},{"o":66,"b":1,"t":"Perfect way to use odd balances on prepaid cards","x":"I often use Amazon's Gift Card Balance Reload to finish the remaining balances on any prepaid debit cards I have. Those cards come from many sources these days, such as rebates, promotional offers, and sometimes even government payments. It can be difficult to use up a card's entire balance through random online/retail purchases, so I'm very thankful that Amazon allows reloading of an exact value down to the cent - no more throwing away cards that still have a small amount left. There's always something great to buy on Amazon, so these balance reloads never go to waste. Five stars.","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"perfect","m":true},{"o":67,"b":1,"t":"Like","x":"My daughter loved this as a gift. Came in fast and I had no problems","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":68,"b":1,"t":"everyone loves gift cards!","x":"What is there to say.. Game Stop gift cards are awesome! :)","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":69,"b":1,"t":"Convenient Gift Card for Kindle Reader","x":"Very attractive packaging!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":70,"b":1,"t":"Five Stars","x":"Nice 20% discount.","p":"POSITIVE","r":5,"e":"anticipation","n":null,"w":null,"m":false},{"o":71,"b":1,"t":"Awsome","x":"Super easy to add to your account!","p":"POSITIVE","r":5,"e":"trust","n":"trust","w":"account","m":true},{"o":72,"b":1,"t":"Nominations","x":"So incredibly stupid, they sent me two cars they were both different nominations it does not tell you which one is which value. Told you to look up the serial number but she was no serial number anywhere I can find should not be this much work it’s really stupid will never do it again thanks for","p":"NEGATIVE","r":1,"e":"anger","n":"anticipation","w":"serial","m":false},{"o":73,"b":1,"t":"Five Stars","x":"reloading is so easily and the money  is applied immediately","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"money","m":false},{"o":74,"b":1,"t":"Five Stars","x":"perfect","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"perfect","m":false},{"o":75,"b":1,"t":"Five Stars","x":"Great gift","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":76,"b":1,"t":"Five Stars","x":"Kids loved","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":77,"b":1,"t":"An easy way to buy tasty donuts","x":"I bought this the day after Thanksgiving. It arrived in a few days and worked at my local Krispy Kreme. An easy gift for the donut lover. An easy way to get tasty donuts!","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":78,"b":1,"t":"Five Stars","x":"easy to use","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":79,"b":1,"t":"Great","x":"Pick a game","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":80,"b":1,"t":"What to give to the person you do not know very well.","x":"Almost all my friends buy at Amazon. I do too! I always seem to find things I want when I do not have the cash to make a purchase. Amazon gift cards meet my needs and the needs of my friends.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"cash","m":false},{"o":81,"b":1,"t":"I can't figure out how to use it! I ...","x":"I can't figure out how to use it! I was trying to use it for some Kindle purchases. I hope I can figure it out on my next try.","p":"NEGATIVE","r":1,"e":"anger","n":"anticipation","w":"hope","m":false},{"o":82,"b":1,"t":"Five Stars","x":"It's a gift card? What can I review about that hah.<br />It was delivered fast.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":83,"b":1,"t":"Beautiful case for your gift card","x":"Awesome case to put the gift card in.  Don't even  have to wrap it.","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":84,"b":1,"t":"Great idea, nice design.","x":"Well, I ordered this card specifically for how the box looked.  It was secured in a plastic bag....and whoever packaged it just shoved it in, and the bow was messed up.  I had to get my curling iron and fix it.  Frankly, that is ridiculous.  Fixable...but come on.  How hard is this for $100?!?  The idea and the design, great.  Very nice.  Execution, less so.","p":"NEGATIVE","r":4,"e":"anger","n":"anger","w":"execution","m":true},{"o":85,"b":1,"t":"Gift card","x":"Gift card","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":86,"b":1,"t":"Cute Snowflake design.","x":"Nice Snowflake design so didn't need to wrap it or anything else. Perfect gift box.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"perfect","m":false},{"o":87,"b":1,"t":"Nice!","x":"Gave as gifts and loved the presentation!","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":88,"b":1,"t":"Five Stars","x":"It was easy to do!","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":89,"b":1,"t":"Supposed to be ready to use.","x":"Purchased two of these as a gift for my daughter. Assumed them to be 'ready to use' since there were no instructions to activate, secure a PIN or anything else. Daughter said she could not use them when she tried.<br /><br />So hopefully she has called customer service to see what the deal is.","p":"NEGATIVE","r":3,"e":"anger","n":"anticipation","w":"deal","m":false},{"o":90,"b":1,"t":"Works great","x":"Card was bent when it came in but it was acceptable. The card worked perfectly and my sister appreciated it.","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":91,"b":1,"t":"Five Stars","x":"Given as a Christmas present","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"present","m":false},{"o":92,"b":1,"t":"A great gift!","x":"Arrived on time and was as advertised.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":93,"b":1,"t":"Amazing Deal","x":"I got this card as a new customer so it was a great deal.  I put $100 on the card and got $125 to spend!","p":"POSITIVE","r":5,"e":"anticipation","n":"anticipation","w":"deal","m":true},{"o":94,"b":1,"t":"Nice box and makes a nice-looking gift.","x":"Liked it all. So did the 4 recipients of all the boxes I bought.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":95,"b":1,"t":"This card wasn't activated prior to sending it to us.  It won't work","x":"The card needs to be activated prior to sending it and it wasn't.  We can't redeem the card.","p":"NEGATIVE","r":1,"e":"anger","n":null,"w":null,"m":false},{"o":96,"b":1,"t":"Make your Benifit from your money!","x":"It saves few money from my spending, I really like it when I use it.","p":"POSITIVE","r":5,"e":"joy","n":"anger","w":"money","m":false},{"o":97,"b":1,"t":"Great foe mailing","x":"Nice n compact","p":"POSITIVE","r":5,"e":"trust","n":"anger","w":"foe","m":false},{"o":98,"b":1,"t":"Unique gift","x":"Perfect Birthday gift and so cute!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":99,"b":1,"t":"It's a gift card in nice packaging with no overhead cost to the consumer","x":"It's a gift card in nice packaging with no overhead cost to the consumer. Fairly common practice, but a nice touch -- however the box does ruin the surprise!","p":"POSITIVE","r":5,"e":"surprise","n":"joy","w":"gift","m":false},{"o":100,"b":2,"t":"apple with 10% discount","x":"10% discount. can't go wrong","p":"POSITIVE","r":5,"e":"anticipation","n":null,"w":null,"m":false},{"o":101,"b":2,"t":"... see it but the person I sent it to loved it!","x":"I did not see it but the person I sent it to loved it!","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":102,"b":2,"t":"Bought as a goft obviously...","x":"Ordered this my brother in law and it arrived quickly and looked nice. I can only assume he was able to use it without issue.","p":"POSITIVE","r":5,"e":"trust","n":"trust","w":"brother","m":true},{"o":103,"b":2,"t":"Quick and easy gifting","x":"It was a perfect, I just had to write the receiver’s name and it was ready to gift","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"perfect","m":false},{"o":104,"b":2,"t":"Five Stars","x":"son love this for his bday geat sales there too","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"love","m":true},{"o":105,"b":2,"t":"Good for Easter, Mothers' Day, Birthdays, or bridal showers.","x":"Such a cute way to present a gift card.  I will be buying more of these!  Remember, you can use the amazon gift card yourself, and put any gift card you want in this.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"good","m":false},{"o":106,"b":2,"t":"Amazon.com gift card delivered but never received (stolen?)","x":"U.S.P.S delivery tracking claims that my gift card was delivered, but I never got it. This appears to be the first item ever stolen from my mailbox in 7 1/2 years. I suspect that Amazon puts \"Amazon.com\" as the return address, thereby alerting EVERYONE that it contains a gift card, which of couse ANYONE can use.<br /><br />The upshot is that I'm out the $25.00 I paid to Amazon, and Amazon provides no way for me to even inform them that the gift card was stolen/lost.<br />My recommendation: Don't buy Amazon gift cards. They are sitting ducks.<br />Instead, give a check or some other type of gift card for that you buy in person.","p":"NEGATIVE","r":1,"e":"anger","n":"anticipation","w":"gift","m":false},{"o":107,"b":2,"t":"Good Food","x":"It was a gift for our daughter in California ..her and husband enjoyed the meal ..good cocktails, she said.","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"good","m":true},{"o":108,"b":2,"t":"Five Stars","x":"Great!","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":109,"b":2,"t":"The cards arrived activated and worked fine","x":"I was hesitant to order the gift cards reading all the bad reviews and problems of the cards not being activated. The cards arrived promptly and we had no problem using it except for one card. The removal of the card from the paper caused the glue to remove part of the strip. With the missing strip, the card cannot be read or manually entered on the part of the store. I had to register the card online and use it as an online payment method.","p":"POSITIVE","r":4,"e":"trust","n":"sadness","w":"bad","m":false},{"o":110,"b":2,"t":"Four Stars","x":"ok","p":"POSITIVE","r":4,"e":"trust","n":null,"w":null,"m":false},{"o":111,"b":2,"t":"Came on time.","x":"Just what my daughter wanted.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"time","m":false},{"o":112,"b":2,"t":"Amazon Gift Cards","x":"The Amazon gift card is a great idea for a Christmas gift for someone when you have no idea what to buy them. Everyone seems to love them. And they save me a lot of time when you wait to shop until the last minute. I don't have to fight crowds at the mall or traffic & that's always a plus for me. They're always delivered within a couple of days & you're still able to get them before Christmas. Young people (& a lot of the older ones, too) are always happy to get them as they can use them to buy things or watch movies, etc. I know I'll be buying more of them in the future. And you can buy them anytime, not just at Christmas...","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":113,"b":2,"t":"Five Stars","x":"Easy to use!","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":114,"b":2,"t":"Loved it","x":"I'm glad I brought it","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"glad","m":false},{"o":115,"b":2,"t":"Five Stars","x":"Great","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":116,"b":2,"t":"Amazon gift card","x":"Due to a number of variables, I was unable to get Christmas presents I could wrap & send out to relatives. By purchasing a gift card, the recipient was very happy to be able shop for himself. The card came packaged along with an ornament, as an added bonus.  Purchasing the card was quick and easy, allowing me to choose the amount and style. The best way to go!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":117,"b":2,"t":"Receipt print was too small, hard to read clearly.","x":"Was a speedy delivery.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"delivery","m":false},{"o":118,"b":2,"t":"Love it!","x":"Great and easy to use.","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"love","m":true},{"o":119,"b":2,"t":"Beautiful","x":"It was a really beautiful display of a standard gift card.","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":120,"b":2,"t":"Perfect gift giving item!","x":"An Amazon Gift Card is ALWAYS the right color, shape, size, etc. for EVERY occasion! This particular 'Gift Tag' presentation is very attractive and my son loved this gift! Thank you for creating a cute way to present a Gift Card!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"present","m":false},{"o":121,"b":2,"t":"would prefer something different","x":"Hard to gift.  No place for the instructions, and no place to put recipient's name on outer box.  Would be better if it looked like a little gift box with space for name of recipient.","p":"NEGATIVE","r":4,"e":"anger","n":"anticipation","w":"gift","m":false},{"o":122,"b":2,"t":"works","x":"was easy to do i used another gift card so will be able to use all of it without some clerk giving grief about splitting a ticket so i could use remaining few dollars and change. i know it is so hard to push a few more buttons, but it is not right to waste money someone has paid.","p":"POSITIVE","r":5,"e":"anger","n":"anticipation","w":"money","m":false},{"o":123,"b":2,"t":"Great gift item","x":"I have been using these as gifts and they are well received.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":124,"b":2,"t":"Cute as a cupcake!","x":"Love that the gift card came in such cute packaging!","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":125,"b":2,"t":"Easy do use","x":"Easy to reload","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":126,"b":2,"t":"It was delivered on time.","x":"It was delivered on time!! So she had it before Mother’s Day.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"mother","m":false},{"o":127,"b":2,"t":"Five Stars","x":"Loved all of it, the presentation and the ability for individual getting the gift to shop freely on amazon","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":128,"b":2,"t":"One Star","x":"I thought the entire chain just closed. The two near us are shuttered.","p":"NEGATIVE","r":1,"e":"sadness","n":"anticipation","w":"star","m":false},{"o":129,"b":2,"t":"Excellent gift","x":"Person enjoyed the gift","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":130,"b":2,"t":"Gift Cards","x":"One of the most requested gifts.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":131,"b":2,"t":"Nice gift card to enclose in a greeting card.","x":"It makes a nice gift to be given in a greeting card!","p":"POSITIVE","r":5,"e":"joy","n":"surprise","w":"gift","m":false},{"o":132,"b":2,"t":"Five Stars","x":"Nice touch","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":133,"b":2,"t":"Great teacher gifts","x":"We got these for gifts for our children's teachers and they went over really well!  Who doesn't love a gift card from Amazon?","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":134,"b":2,"t":"For my hubbie","x":"Got this as a stocking stuffer for my husband, who LOVES going to the movies. He was thrilled with it!","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":135,"b":2,"t":"The best gift","x":"This gift will be appreciated warranted.  Mr. Vega","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":136,"b":2,"t":"reload account","x":"so far no problems with the reload account. I like being able to reload my account quickly.","p":"POSITIVE","r":4,"e":"trust","n":"trust","w":"account","m":true},{"o":137,"b":2,"t":"Love that it comes in already ready to give.","x":"Cute box to go with the gift card meant No wrapping for me!!!<br />Gift box was a super nice way to give the gift card.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":138,"b":2,"t":"Pretty package","x":"Giftable","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"pretty","m":false},{"o":139,"b":2,"t":"This was a big help!","x":"This came in very handy when I had multiple gift cards and wanted to consolidate them for Christmas shopping.  It worked out great.  I just transferred all my balances on all my partially used cards and now I can use everything.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"shopping","m":false},{"o":140,"b":2,"t":"the gift card","x":"thank you so very much. will use this on my vaction to FL. thank you again and God bless.....  I love Starbucks","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"god","m":true},{"o":141,"b":2,"t":"item as described","x":"happy with gift card","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"happy","m":false},{"o":142,"b":2,"t":"Great gift","x":"Loved the presentation","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":143,"b":2,"t":"Very useful when I need to complete my payment.","x":"Amazon applied it to my purchase w/o delay as I expected.","p":"POSITIVE","r":5,"e":"trust","n":"anger","w":"delay","m":false},{"o":144,"b":2,"t":"Five Stars","x":"The perfect gift.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"perfect","m":false},{"o":145,"b":2,"t":"Five Stars","x":"Quick and Easy....","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":146,"b":2,"t":"The easyest.","x":"It was quick and easy even for me.","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":147,"b":2,"t":"Nice to give a gift nothing good gift","x":"Nothing","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"good","m":false},{"o":148,"b":2,"t":"Very useful","x":"I like that I can get a gift card to pay my Amazon account","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":149,"b":2,"t":"arrived fast!","x":"Always love a gift card!","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":150,"b":2,"t":"okey dokey, smokey","x":"wanted to add funds to GC; process went smoothly; GC now has more value.  What more can I say?","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":151,"b":2,"t":"Five Stars","x":"Great presentation","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":152,"b":2,"t":"Convenience","x":"Loved the ease and convenience of getting a specific card we wanted. Very satisfied.","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"satisfied","m":true},{"o":153,"b":2,"t":"Not activated!!","x":"Second time I ordered and they were not active and I could not return!","p":"NEGATIVE","r":1,"e":"anger","n":"anticipation","w":"time","m":false},{"o":154,"b":2,"t":"This is a gift for my Mom who doesn't like to cook","x":"This is a gift for my Mom who doesn't like to cook. Two $50 gift cards. So convenient from Amazon with Prime Service","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":155,"b":2,"t":"Gift cards","x":"Gift cards for Amazon. Who wouldn’t want gift cards from Amazon.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":156,"b":2,"t":"great for a gift","x":"purchased for our daughter for Christmas she loved it and was so thankful to get it","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":157,"b":2,"t":"amazon funds :)","x":"amazon store credits :)","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"store","m":false},{"o":158,"b":2,"t":"Gift Cards from Amazon","x":"This was perfect.  I never realized I could buy a variety of gift cards from Amazon!  With most of these stores closed in the mall during this pandemic, it was convenient and hassle free!  Thank you!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":159,"b":2,"t":"Worked great","x":"Like","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":160,"b":2,"t":"as described!","x":"gift card = gift card; no complaint.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":161,"b":2,"t":"So cute","x":"I love the design. So inventive.","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"love","m":true},{"o":162,"b":2,"t":"Great and Easy Gift!","x":"Money - it's what they want!!!","p":"POSITIVE","r":5,"e":"anticipation","n":"anticipation","w":"money","m":true},{"o":163,"b":2,"t":"DO NOT BUY!!!!","x":"The PIN is not accessible and \"return window\" closed yesterday.  Totally cheated me out of $100!!! Doordash will not help either!!!","p":"NEGATIVE","r":1,"e":"anger","n":null,"w":null,"m":false},{"o":164,"b":2,"t":"The perfect gift","x":"Easy to use.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"perfect","m":false},{"o":165,"b":2,"t":"Man its just a giftcard reload.","x":"Its a reload on my gift card balance.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":166,"b":2,"t":"Five Stars","x":"great","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":167,"b":2,"t":"Five Stars","x":"As described, no problems.","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":168,"b":2,"t":"Five Stars","x":"good","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"good","m":false},{"o":169,"b":2,"t":"Love the gift box","x":"Such a great gift! Saved me some shopping time.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"shopping","m":false},{"o":170,"b":2,"t":"typically process 5 min) lost my chance to get it the day I needed it just because I wasn't smart enough just pay straight from the","x":"waiting time to process a gift card that's just ridiculous. I'm waiting for the past 2 hours on my processing status of the payment(Amazon is stating: typically process 5 min) lost my chance to get it the day I needed it just because I wasn't smart enough just pay straight from the card","p":"NEGATIVE","r":2,"e":"anger","n":"anticipation","w":"pay","m":false},{"o":171,"b":2,"t":"Five Stars","x":"GREAT","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":172,"b":2,"t":"It was a really fun gift to send our grand-daughter for a very cute gift.","x":"Nice packaging, and very clever design.  thanks AMAZON!","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":173,"b":2,"t":"Nice","x":"Easy so I did not have to go to the store","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"store","m":false},{"o":174,"b":2,"t":"Five Stars","x":"Just Reloading.","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":175,"b":2,"t":"Duh","x":"Hello awesome money for free from other people.  Oh, you also can be given to other people instead of hours and extra money on junk they don't even like? Perfect.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"money","m":false},{"o":176,"b":2,"t":"Thank you amazon!","x":"What can I say? its a gift card.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":177,"b":2,"t":"Good product","x":"Good product","p":"POSITIVE","r":3,"e":"joy","n":"anticipation","w":"good","m":false},{"o":178,"b":2,"t":"Easy purchase","x":"Didn’t have time to send a gift so just had it delivered to them!","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":179,"b":2,"t":"Five Stars","x":"What's not to love about a gift card!!!","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":180,"b":2,"t":"Upset","x":"I brought 2 gift cards with different amounts on them. I got the card in a couple of days which was good, but they didn't tell me which card had what amount in it so didn't know which one to give to the right person. 😖","p":"NEGATIVE","r":1,"e":"anger","n":"anticipation","w":"good","m":false},{"o":181,"b":2,"t":"One Star","x":"Ordered 2 days before Christmas but didnt ship until 2 days after Christmas.","p":"NEGATIVE","r":1,"e":"anger","n":"anticipation","w":"star","m":false},{"o":182,"b":2,"t":"Five Stars","x":"Delivered on time and as advertised","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"time","m":false},{"o":183,"b":2,"t":"Exactly as described. Great product","x":"Can’t go wrong","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":184,"b":2,"t":"It's a gift card","x":"How in the world do you rate a gift card?","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":185,"b":2,"t":"Perfect for Anyone Who Loves to Read","x":"Love it!!! So easy and so convenient. I buy books all the time and the Amazon Gift Card is the method of choice for me from now on.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"perfect","m":false},{"o":186,"b":2,"t":"Gift cards","x":"Arrived quickly. Convenient gift","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":187,"b":2,"t":"Convenient Gift Card","x":"Convenient!  Bought this for my mother-in-law because she lives on QVC.  It was wonderfully convenient while Christmas shopping.","p":"POSITIVE","r":5,"e":"trust","n":"joy","w":"mother","m":false},{"o":188,"b":2,"t":"No receipt","x":"Not happy with no receipt for the gift card","p":"NEGATIVE","r":4,"e":"anger","n":"anticipation","w":"happy","m":false},{"o":189,"b":2,"t":"Great healthy choice gift card","x":"Bought whole foods gift cards for myself and all of my friends the feel that eating healthy is our way of life. Not an option any more. I was so excited to see this gift card offered.","p":"POSITIVE","r":5,"e":"anticipation","n":"anticipation","w":"excited","m":true},{"o":190,"b":2,"t":"Five Stars","x":"My girlfriend enjoyed it.","p":"POSITIVE","r":5,"e":"joy","n":null,"w":null,"m":false},{"o":191,"b":2,"t":"Nice presentation","x":"Nice way to give a gift card.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":192,"b":2,"t":"Dont know what to give?","x":"Great gift!","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":193,"b":2,"t":"Cute","x":"I used these for Amazon gift cards for my grandsons.  This product is so cute and very sturdy and the perfect size for any gift card.  They are sturdy so they're reusable.  I'd definitely buy them again.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":194,"b":2,"t":"Christmas","x":"Was a excellent Christmas Gift","p":"POSITIVE","r":5,"e":"joy","n":"joy","w":"gift","m":true},{"o":195,"b":2,"t":"Exciting","x":"Love this metal cupcake. Everyone I have given it to has been excited","p":"POSITIVE","r":5,"e":"anticipation","n":"joy","w":"excited","m":false},{"o":196,"b":2,"t":"Quickly processed!","x":"Easy process!","p":"POSITIVE","r":5,"e":"trust","n":null,"w":null,"m":false},{"o":197,"b":2,"t":"Five Stars","x":"gift","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"gift","m":false},{"o":198,"b":2,"t":"I know where to put the gift card and I don’t have to look for a box.","x":"Great for gift cards.","p":"POSITIVE","r":5,"e":"trust","n":"anticipation","w":"gift","m":false},{"o":199,"b":2,"t":"The way to go when you want to let someone choose their own gift without feeling like a cop out","x":"Super cute low effort but meaningful and practical gift I order for my dad to give my mom.","p":"POSITIVE","r":5,"e":"joy","n":"anticipation","w":"feeling","m":false}];
+
+const PALETTES = {
+  ocean:  {name:'Ocean Blue', vars:{'--bg':'#04060b','--bg2':'#070b14','--panel':'#0a101d','--panel2':'#0d1526','--border':'#1a2740','--muted':'#93a7c4','--faint':'#5d718f','--accent':'#4da3ff','--accent-strong':'#1f7bef','--pos':'#56b3ff','--neg':'#1e4f9e','--neg-deep':'#0d2b5e','--ok':'#4ade80','--bad':'#ffb454'}},
+  emerald:{name:'Emerald',    vars:{'--bg':'#030a06','--bg2':'#06120c','--panel':'#08170f','--panel2':'#0b1d14','--border':'#124029','--muted':'#8fc3a8','--faint':'#4f7d66','--accent':'#34d399','--accent-strong':'#10b981','--pos':'#34d399','--neg':'#0b5c3f','--neg-deep':'#052e20','--ok':'#4ade80','--bad':'#ffb454'}},
+  violet: {name:'Violet',      vars:{'--bg':'#070509','--bg2':'#0b0812','--panel':'#110c1e','--panel2':'#161028','--border':'#2e2050','--muted':'#b3a5d9','--faint':'#716196','--accent':'#a78bfa','--accent-strong':'#8b5cf6','--pos':'#a78bfa','--neg':'#4c1d95','--neg-deep':'#260e4d','--ok':'#4ade80','--bad':'#ffb454'}},
+  ember:  {name:'Ember',       vars:{'--bg':'#0b0703','--bg2':'#120a04','--panel':'#1c1005','--panel2':'#241607','--border':'#4a2c0f','--muted':'#d9b08c','--faint':'#a0744a','--accent':'#ffb454','--accent-strong':'#fb923c','--pos':'#ffb454','--neg':'#8a4b12','--neg-deep':'#45240a','--ok':'#4ade80','--bad':'#f87171'}},
+  crimson:{name:'Crimson',     vars:{'--bg':'#0b0405','--bg2':'#120608','--panel':'#1d0a0f','--panel2':'#250d13','--border':'#4a1521','--muted':'#d99aa8','--faint':'#a05a6d','--accent':'#fb7185','--accent-strong':'#f43f5e','--pos':'#fb7185','--neg':'#8f1d36','--neg-deep':'#480e1c','--ok':'#4ade80','--bad':'#ffb454'}},
+  slate:  {name:'Slate',       vars:{'--bg':'#050607','--bg2':'#090b0d','--panel':'#0f1114','--panel2':'#14171b','--border':'#242b32','--muted':'#9aa7b1','--faint':'#5d6973','--accent':'#8fa3bf','--accent-strong':'#64748b','--pos':'#cbd5e1','--neg':'#475569','--neg-deep':'#232b33','--ok':'#4ade80','--bad':'#f87171'}}
+};
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sentOK = d => d.p === 'POSITIVE' ? d.r >= 4 : d.r <= 3;
+const EMOS = ['anger','anticipation','disgust','fear','joy','sadness','surprise','trust'];
+
+/* ---- palette ---- */
+let saved = 'ocean';
+try { saved = localStorage.getItem('dash-palette') || 'ocean'; } catch(e){}
+function applyPalette(name){
+  const p = PALETTES[name]; if(!p) return;
+  Object.entries(p.vars).forEach(([k,v]) => document.documentElement.style.setProperty(k, v));
+  $('#pname').textContent = p.name;
+  $$('.sw').forEach(b => b.classList.toggle('active', b.dataset.p === name));
+  try { localStorage.setItem('dash-palette', name); } catch(e){}
+}
+Object.entries(PALETTES).forEach(([name, p]) => {
+  const b = document.createElement('button');
+  b.className = 'sw' + (name === saved ? ' active' : '');
+  b.dataset.p = name;
+  b.title = p.name;
+  b.style.background = `linear-gradient(135deg, ${p.vars['--pos']} 0%, ${p.vars['--neg']} 100%)`;
+  b.addEventListener('click', () => applyPalette(name));
+  $('#swatches').appendChild(b);
+});
+applyPalette(saved);
+
+/* ---- tabs ---- */
+$$('.tab').forEach(t => t.addEventListener('click', () => {
+  $$('.tab').forEach(x => x.classList.toggle('active', x === t));
+  $('#tab-overview').hidden = t.dataset.tab !== 'overview';
+  $('#tab-details').hidden = t.dataset.tab !== 'details';
+}));
+
+/* ---- overview ---- */
+const total = DATA.length;
+const nPos = DATA.filter(d => d.p === 'POSITIVE').length;
+const nNeg = total - nPos;
+const sOk = DATA.filter(sentOK).length;
+const sAcc = 100 * sOk / total;
+const cmp = DATA.filter(d => d.n);
+const eOk = cmp.filter(d => d.m).length;
+const eAcc = cmp.length ? 100 * eOk / cmp.length : 0;
+
+$('#k-analyzed').textContent = total;
+$('#k-pos').textContent = nPos;
+$('#k-neg').textContent = nNeg;
+$('#k-sacc').textContent = sAcc.toFixed(1) + '%';
+$('#k-sacc-foot').textContent = sOk + ' of ' + total + ' matched the rating rule (pos→4–5, neg→1–3)';
+$('#k-eacc').textContent = eAcc.toFixed(1) + '%';
+$('#k-eacc-foot').textContent = eOk + ' of ' + cmp.length + ' agreed with the NRC word answer (' + (total - cmp.length) + ' no NRC word)';
+
+const maxBar = Math.max(nPos, nNeg);
+$('#bar-pos').style.height = Math.max(2, Math.round(nPos / maxBar * 100)) + '%';
+$('#bar-neg').style.height = Math.max(2, Math.round(nNeg / maxBar * 100)) + '%';
+$('#val-pos').textContent = nPos;
+$('#val-neg').textContent = nNeg;
+
+/* emotion distribution chart */
+const emoRows = EMOS.map(e => ({
+  e,
+  pred: DATA.filter(d => d.e === e).length,
+  ans: DATA.filter(d => d.n === e).length
+})).sort((a, b) => (b.pred + b.ans) - (a.pred + a.ans));
+const eScale = Math.max(...emoRows.map(r => r.pred), ...emoRows.map(r => r.ans), 1);
+$('#echart').innerHTML = emoRows.map(r => `
+  <div class="erow">
+    <div class="elabel">${r.e}</div>
+    <div class="etrack"><div class="ebar ep" style="width:${(100 * r.pred / eScale).toFixed(1)}%"></div></div>
+    <div class="ecount">${r.pred}</div>
+    <div class="etrack"><div class="ebar ea" style="width:${(100 * r.ans / eScale).toFixed(1)}%"></div></div>
+    <div class="ecount">${r.ans}</div>
+  </div>`).join('');
+
+/* mismatch cards */
+const misCard = d => `
+  <div class="mcard">
+    <div class="mbadges">
+      <span class="badge ${d.r >= 4 ? 'pos' : 'neg'}">Actual ${d.r}★ ${d.r >= 4 ? '(4–5)' : '(1–3)'}</span>
+      <span class="badge ${d.p === 'POSITIVE' ? 'pos' : 'neg'}">Model ${d.p}</span>
+      <span class="badge miss">Mismatch</span>
+    </div>
+    <div class="mt">${esc(d.t) || '<span class="faint">(no title)</span>'}</div>
+    <div class="mx">${esc(d.x) || '<span class="faint">(no text)</span>'}</div>
+  </div>`;
+
+const sMis = DATA.filter(d => !sentOK(d));
+$('#mgrid-s').innerHTML = sMis.length === 0
+  ? '<div class="mcard"><div class="mx">No mismatches — every prediction matched the 4–5 / 1–3 rule.</div></div>'
+  : sMis.slice(0, 3).map(misCard).join('');
+
+const emoMis = DATA.filter(d => d.n && !d.m);
+const emoExamples = (emoMis.filter(d => d.p === 'NEGATIVE' && ['joy','anticipation','surprise','trust'].includes(d.n)).length
+  ? emoMis.filter(d => d.p === 'NEGATIVE' && ['joy','anticipation','surprise','trust'].includes(d.n))
+  : emoMis).slice(0, 3);
+$('#mgrid-e').innerHTML = emoExamples.length === 0
+  ? '<div class="mcard"><div class="mx">No mismatches — every predicted emotion matched the NRC word answer.</div></div>'
+  : emoExamples.map(d => `
+    <div class="mcard">
+      <div class="mbadges">
+        <span class="badge neu">Predicted ${d.e}</span>
+        <span class="badge neu">NRC ${d.n}</span>
+        <span class="badge miss">via '${esc(d.w)}'</span>
+      </div>
+      <div class="mt">${esc(d.t) || '<span class="faint">(no title)</span>'}</div>
+      <div class="mx">${esc(d.x) || '<span class="faint">(no text)</span>'}</div>
+    </div>`).join('');
+
+/* ---- details ---- */
+const starsHtml = r => {
+  let s = '';
+  for (let i = 1; i <= 5; i++) s += `<span class="${i <= r ? '' : 'off'}">★</span>`;
+  return s;
+};
+const makeRow = d => `
+  <tr class="${sentOK(d) ? '' : 'smiss'} ${d.n && !d.m ? 'emiss' : ''}">
+    <td class="num">${d.o + 1}</td>
+    <td class="num">${d.b}</td>
+    <td><span class="stars">${starsHtml(d.r)}</span><span class="rtnum">${d.r}/5</span></td>
+    <td><span class="badge ${d.p === 'POSITIVE' ? 'pos' : 'neg'}">${d.p}</span></td>
+    <td class="${sentOK(d) ? 'match-ok' : 'match-bad'}">${sentOK(d) ? '✓' : '✗'}</td>
+    <td><span class="badge neu" style="text-transform:capitalize">${d.e}</span></td>
+    <td>${d.n ? `<span class="badge neu" style="text-transform:capitalize">${d.n}</span> <span class="via">via '${esc(d.w)}'</span>` : '<span class="noans">—</span>'}</td>
+    <td class="${d.m === true ? 'match-ok' : (d.m === false ? 'match-bad' : 'noans')}">${d.m === true ? '✓' : (d.m === false ? '✗' : '—')}</td>
+    <td>${esc(d.t) || '<span class="faint">(no title)</span>'}</td>
+    <td class="tx"><div class="clamp">${esc(d.x) || '<span class="faint">(no text)</span>'}</div><span class="hint">click to expand</span></td>
+  </tr>`;
+
+const fBatch = $('#f-batch'), fPred = $('#f-pred'), fRating = $('#f-rating'), fText = $('#f-text'),
+      fTitle = $('#f-title'), fEmotion = $('#f-emotion'), fNrc = $('#f-nrc'), fSearch = $('#f-search');
+
+function renderRows(){
+  const q = fSearch.value.trim().toLowerCase();
+  const rows = DATA.filter(d => {
+    if (fBatch.value !== 'all' && String(d.b) !== fBatch.value) return false;
+    if (fPred.value !== 'all' && d.p !== fPred.value) return false;
+    if (fRating.value !== 'all' && d.r !== +fRating.value) return false;
+    const hasText = d.x.trim().length > 0;
+    if (fText.value === 'yes' && !hasText) return false;
+    if (fText.value === 'no' && hasText) return false;
+    const hasTitle = d.t.trim().length > 0;
+    if (fTitle.value === 'yes' && !hasTitle) return false;
+    if (fTitle.value === 'no' && hasTitle) return false;
+    if (fEmotion.value !== 'all' && d.e !== fEmotion.value) return false;
+    if (fNrc.value === 'none' && d.n) return false;
+    if (fNrc.value !== 'all' && fNrc.value !== 'none' && d.n !== fNrc.value) return false;
+    if (q && !(d.t.toLowerCase().includes(q) || d.x.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  $('#rows').innerHTML = rows.map(makeRow).join('');
+  $('#no-rows').hidden = rows.length > 0;
+  $('#rowcount').textContent = 'Showing ' + rows.length + ' of ' + DATA.length;
+}
+[fBatch, fPred, fRating, fText, fTitle, fEmotion, fNrc, fSearch].forEach(el => el.addEventListener('input', renderRows));
+$('#f-reset').addEventListener('click', () => {
+  fBatch.value = 'all'; fPred.value = 'all'; fRating.value = 'all'; fText.value = 'all';
+  fTitle.value = 'all'; fEmotion.value = 'all'; fNrc.value = 'all'; fSearch.value = '';
+  renderRows();
+});
+$('#rows').addEventListener('click', e => {
+  const cell = e.target.closest('.tx'); if (!cell) return;
+  cell.classList.toggle('open');
+  const hint = cell.querySelector('.hint');
+  if (hint) hint.textContent = cell.classList.contains('open') ? 'click to collapse' : 'click to expand';
+});
+renderRows();
+</script>
+</body>
+</html>

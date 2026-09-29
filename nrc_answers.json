@@ -1,0 +1,1002 @@
+{
+"0": {
+"word": "lose",
+"score": 5,
+"emotion": "surprise"
+},
+"1": {
+"word": "hope",
+"score": 4,
+"emotion": "anticipation"
+},
+"2": {
+"word": "graduation",
+"score": 5,
+"emotion": "anticipation"
+},
+"3": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"4": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"5": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"6": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"7": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"8": {
+"word": "graduation",
+"score": 5,
+"emotion": "joy"
+},
+"9": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"10": {
+"word": "helpful",
+"score": 2,
+"emotion": "joy"
+},
+"11": {
+"word": "shopping",
+"score": 4,
+"emotion": "anticipation"
+},
+"12": {
+"word": "hope",
+"score": 4,
+"emotion": "joy"
+},
+"13": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"14": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"15": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"16": {
+"word": "happy",
+"score": 3,
+"emotion": "trust"
+},
+"17": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"18": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"19": {
+"word": "disappointment",
+"score": 2,
+"emotion": "sadness"
+},
+"20": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"21": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"22": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"23": {
+"word": "misleading",
+"score": 2,
+"emotion": "anger"
+},
+"24": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"25": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"26": {
+"word": "watch",
+"score": 2,
+"emotion": "anticipation"
+},
+"27": {
+"word": "honest",
+"score": 6,
+"emotion": "joy"
+},
+"28": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"29": {
+"word": "happy",
+"score": 3,
+"emotion": "anticipation"
+},
+"30": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"31": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"32": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"33": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"34": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"35": {
+"word": "celebration",
+"score": 4,
+"emotion": "anticipation"
+},
+"36": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"37": {
+"word": "trash",
+"score": 2,
+"emotion": "disgust"
+},
+"38": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"39": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"40": {
+"word": "holiday",
+"score": 2,
+"emotion": "anticipation"
+},
+"41": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"42": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"43": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"44": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"45": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"46": {
+"word": "money",
+"score": 5,
+"emotion": "trust"
+},
+"47": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"48": {
+"word": "found",
+"score": 2,
+"emotion": "joy"
+},
+"49": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"50": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"51": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"52": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"53": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"54": {
+"word": "money",
+"score": 5,
+"emotion": "joy"
+},
+"55": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"56": {
+"word": "cash",
+"score": 5,
+"emotion": "anger"
+},
+"57": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"58": {
+"word": "money",
+"score": 5,
+"emotion": "anger"
+},
+"59": {
+"word": "perfect",
+"score": 3,
+"emotion": "anticipation"
+},
+"60": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"61": {
+"word": "mother",
+"score": 4,
+"emotion": "anticipation"
+},
+"62": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"63": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"64": {
+"word": "love",
+"score": 1,
+"emotion": "joy"
+},
+"65": {
+"word": "money",
+"score": 5,
+"emotion": "anticipation"
+},
+"66": {
+"word": "perfect",
+"score": 3,
+"emotion": "joy"
+},
+"67": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"68": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"69": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"70": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"71": {
+"word": "account",
+"score": 1,
+"emotion": "trust"
+},
+"72": {
+"word": "serial",
+"score": 1,
+"emotion": "anticipation"
+},
+"73": {
+"word": "money",
+"score": 5,
+"emotion": "anticipation"
+},
+"74": {
+"word": "perfect",
+"score": 3,
+"emotion": "anticipation"
+},
+"75": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"76": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"77": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"78": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"79": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"80": {
+"word": "cash",
+"score": 5,
+"emotion": "anticipation"
+},
+"81": {
+"word": "hope",
+"score": 4,
+"emotion": "anticipation"
+},
+"82": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"83": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"84": {
+"word": "execution",
+"score": 4,
+"emotion": "anger"
+},
+"85": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"86": {
+"word": "perfect",
+"score": 3,
+"emotion": "anticipation"
+},
+"87": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"88": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"89": {
+"word": "deal",
+"score": 4,
+"emotion": "anticipation"
+},
+"90": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"91": {
+"word": "present",
+"score": 4,
+"emotion": "anticipation"
+},
+"92": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"93": {
+"word": "deal",
+"score": 4,
+"emotion": "anticipation"
+},
+"94": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"95": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"96": {
+"word": "money",
+"score": 5,
+"emotion": "anger"
+},
+"97": {
+"word": "foe",
+"score": 2,
+"emotion": "anger"
+},
+"98": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"99": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"100": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"101": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"102": {
+"word": "brother",
+"score": 1,
+"emotion": "trust"
+},
+"103": {
+"word": "perfect",
+"score": 3,
+"emotion": "anticipation"
+},
+"104": {
+"word": "love",
+"score": 1,
+"emotion": "joy"
+},
+"105": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"106": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"107": {
+"word": "good",
+"score": 4,
+"emotion": "joy"
+},
+"108": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"109": {
+"word": "bad",
+"score": 4,
+"emotion": "sadness"
+},
+"110": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"111": {
+"word": "time",
+"score": 1,
+"emotion": "anticipation"
+},
+"112": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"113": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"114": {
+"word": "glad",
+"score": 2,
+"emotion": "anticipation"
+},
+"115": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"116": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"117": {
+"word": "delivery",
+"score": 1,
+"emotion": "anticipation"
+},
+"118": {
+"word": "love",
+"score": 1,
+"emotion": "joy"
+},
+"119": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"120": {
+"word": "present",
+"score": 4,
+"emotion": "anticipation"
+},
+"121": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"122": {
+"word": "money",
+"score": 5,
+"emotion": "anticipation"
+},
+"123": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"124": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"125": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"126": {
+"word": "mother",
+"score": 4,
+"emotion": "anticipation"
+},
+"127": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"128": {
+"word": "star",
+"score": 3,
+"emotion": "anticipation"
+},
+"129": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"130": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"131": {
+"word": "gift",
+"score": 3,
+"emotion": "surprise"
+},
+"132": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"133": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"134": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"135": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"136": {
+"word": "account",
+"score": 1,
+"emotion": "trust"
+},
+"137": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"138": {
+"word": "pretty",
+"score": 3,
+"emotion": "anticipation"
+},
+"139": {
+"word": "shopping",
+"score": 4,
+"emotion": "anticipation"
+},
+"140": {
+"word": "god",
+"score": 4,
+"emotion": "joy"
+},
+"141": {
+"word": "happy",
+"score": 3,
+"emotion": "anticipation"
+},
+"142": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"143": {
+"word": "delay",
+"score": 4,
+"emotion": "anger"
+},
+"144": {
+"word": "perfect",
+"score": 3,
+"emotion": "anticipation"
+},
+"145": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"146": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"147": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"148": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"149": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"150": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"151": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"152": {
+"word": "satisfied",
+"score": 1,
+"emotion": "joy"
+},
+"153": {
+"word": "time",
+"score": 1,
+"emotion": "anticipation"
+},
+"154": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"155": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"156": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"157": {
+"word": "store",
+"score": 1,
+"emotion": "anticipation"
+},
+"158": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"159": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"160": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"161": {
+"word": "love",
+"score": 1,
+"emotion": "joy"
+},
+"162": {
+"word": "money",
+"score": 5,
+"emotion": "anticipation"
+},
+"163": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"164": {
+"word": "perfect",
+"score": 3,
+"emotion": "anticipation"
+},
+"165": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"166": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"167": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"168": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"169": {
+"word": "shopping",
+"score": 4,
+"emotion": "anticipation"
+},
+"170": {
+"word": "pay",
+"score": 3,
+"emotion": "anticipation"
+},
+"171": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"172": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"173": {
+"word": "store",
+"score": 1,
+"emotion": "anticipation"
+},
+"174": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"175": {
+"word": "money",
+"score": 5,
+"emotion": "anticipation"
+},
+"176": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"177": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"178": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"179": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"180": {
+"word": "good",
+"score": 4,
+"emotion": "anticipation"
+},
+"181": {
+"word": "star",
+"score": 3,
+"emotion": "anticipation"
+},
+"182": {
+"word": "time",
+"score": 1,
+"emotion": "anticipation"
+},
+"183": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"184": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"185": {
+"word": "perfect",
+"score": 3,
+"emotion": "anticipation"
+},
+"186": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"187": {
+"word": "mother",
+"score": 4,
+"emotion": "joy"
+},
+"188": {
+"word": "happy",
+"score": 3,
+"emotion": "anticipation"
+},
+"189": {
+"word": "excited",
+"score": 4,
+"emotion": "anticipation"
+},
+"190": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"191": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"192": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"193": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"194": {
+"word": "gift",
+"score": 3,
+"emotion": "joy"
+},
+"195": {
+"word": "excited",
+"score": 4,
+"emotion": "joy"
+},
+"196": {
+"word": null,
+"score": 0,
+"emotion": null
+},
+"197": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"198": {
+"word": "gift",
+"score": 3,
+"emotion": "anticipation"
+},
+"199": {
+"word": "feeling",
+"score": 8,
+"emotion": "anticipation"
+}
+}

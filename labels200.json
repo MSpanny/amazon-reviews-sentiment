@@ -1,0 +1,802 @@
+{
+"100": {
+"s": "POSITIVE",
+"e": "anticipation"
+},
+"101": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"102": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"103": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"104": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"105": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"106": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"107": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"108": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"109": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"110": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"111": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"112": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"113": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"114": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"115": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"116": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"117": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"118": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"119": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"120": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"121": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"122": {
+"s": "POSITIVE",
+"e": "anger"
+},
+"123": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"124": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"125": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"126": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"127": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"128": {
+"s": "NEGATIVE",
+"e": "sadness"
+},
+"129": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"130": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"131": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"132": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"133": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"134": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"135": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"136": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"137": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"138": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"139": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"140": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"141": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"142": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"143": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"144": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"145": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"146": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"147": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"148": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"149": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"150": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"151": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"152": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"153": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"154": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"155": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"156": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"157": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"158": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"159": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"160": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"161": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"162": {
+"s": "POSITIVE",
+"e": "anticipation"
+},
+"163": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"164": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"165": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"166": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"167": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"168": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"169": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"170": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"171": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"172": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"173": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"174": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"175": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"176": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"177": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"178": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"179": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"180": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"181": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"182": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"183": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"184": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"185": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"186": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"187": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"188": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"189": {
+"s": "POSITIVE",
+"e": "anticipation"
+},
+"190": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"191": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"192": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"193": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"194": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"195": {
+"s": "POSITIVE",
+"e": "anticipation"
+},
+"196": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"197": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"198": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"199": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"0": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"1": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"2": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"3": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"4": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"5": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"6": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"7": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"8": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"9": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"10": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"11": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"12": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"13": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"14": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"15": {
+"s": "NEGATIVE",
+"e": "anticipation"
+},
+"16": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"17": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"18": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"19": {
+"s": "NEGATIVE",
+"e": "sadness"
+},
+"20": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"21": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"22": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"23": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"24": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"25": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"26": {
+"s": "NEGATIVE",
+"e": "sadness"
+},
+"27": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"28": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"29": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"30": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"31": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"32": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"33": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"34": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"35": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"36": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"37": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"38": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"39": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"40": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"41": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"42": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"43": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"44": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"45": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"46": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"47": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"48": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"49": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"50": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"51": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"52": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"53": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"54": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"55": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"56": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"57": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"58": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"59": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"60": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"61": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"62": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"63": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"64": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"65": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"66": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"67": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"68": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"69": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"70": {
+"s": "POSITIVE",
+"e": "anticipation"
+},
+"71": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"72": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"73": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"74": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"75": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"76": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"77": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"78": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"79": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"80": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"81": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"82": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"83": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"84": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"85": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"86": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"87": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"88": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"89": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"90": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"91": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"92": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"93": {
+"s": "POSITIVE",
+"e": "anticipation"
+},
+"94": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"95": {
+"s": "NEGATIVE",
+"e": "anger"
+},
+"96": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"97": {
+"s": "POSITIVE",
+"e": "trust"
+},
+"98": {
+"s": "POSITIVE",
+"e": "joy"
+},
+"99": {
+"s": "POSITIVE",
+"e": "surprise"
+}
+}
